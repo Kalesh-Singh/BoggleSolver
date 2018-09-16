@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/boggle-solver.js" line="104" />
+    <bookmark url="file://$PROJECT_DIR$/boggle-solver.js" line="105" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cc3cc00d-65c8-4aea-9bec-468cc444e597" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/test/test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boggle-solver.js" beforeDir="false" afterPath="$PROJECT_DIR$/boggle-solver.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -26,22 +28,26 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="js" value="1" />
+          <entry key="js" value="2" />
+          <entry key="json" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JavaScript" value="1" />
+          <entry key="JSON" value="1" />
+          <entry key="JavaScript" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="2384" />
+          <entry key="js" value="3054" />
+          <entry key="json" value="13" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="2384" />
+          <entry key="JSON" value="13" />
+          <entry key="JavaScript" value="3054" />
         </counts>
       </usages-collector>
     </session>
@@ -51,13 +57,39 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/boggle-solver.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="679">
-              <caret line="200" column="18" selection-start-line="200" selection-start-column="18" selection-end-line="200" selection-end-column="18" />
+            <state>
+              <caret line="90" column="25" lean-forward="true" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/test.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="16" column="36" lean-forward="true" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="package.json" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -70,6 +102,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/test/test.js" />
         <option value="$PROJECT_DIR$/boggle-solver.js" />
       </list>
     </option>
@@ -79,6 +113,11 @@
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/package.json" />
+    </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="4">
     <option name="x" value="67" />
@@ -107,6 +146,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="10.10.0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -133,19 +173,19 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1537122510685</updated>
-      <workItem from="1537122512315" duration="8336000" />
+      <workItem from="1537122512315" duration="10741000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8336000" />
+    <option name="totallyTimeSpent" value="10741000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="927" height="1055" extended-state="4" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.24944071" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.24889381" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
@@ -170,10 +210,24 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="16" column="36" lean-forward="true" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/boggle-solver.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="679">
-          <caret line="200" column="18" selection-start-line="200" selection-start-column="18" selection-end-line="200" selection-end-column="18" />
+        <state>
+          <caret line="90" column="25" lean-forward="true" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="25" />
         </state>
       </provider>
     </entry>

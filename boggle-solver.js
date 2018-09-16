@@ -38,6 +38,7 @@ class Trie {
         let node = this.root;
 
         for (let char of word) {
+            char = char.toLowerCase();
             if (!(node.contains(char))) {
                 node.set(char, new TrieNode());
             }
@@ -71,7 +72,7 @@ class BoggleSolver {
         }
 
         // Board height (number of rows)
-        this.m = board.length;
+        this.m = (board instanceof Array) ? board.length : 1;
 
         // Board width (number of columns)
         this.n = (board[0] instanceof Array) ? board[0].length : 1;
@@ -147,7 +148,9 @@ class BoggleSolver {
     }
 }
 
+module.exports = BoggleSolver;
 
+/*
 // Driver code
 let dictionary = new Set(['chypre', 'ech', 'ego', 'eng', 'ewt', 'gen',
     'gent', 'get', 'gon', 'hyp', 'neg', 'net', 'new', 'newt', 'nog',
@@ -162,7 +165,7 @@ let board = [
     ['o', 'n', 'b', 'e']
 ];
 
-let solution = new Set([
+let solution = [
     'chypre',
     'ech',
     'ego',
@@ -197,8 +200,10 @@ let solution = new Set([
     'wench',
     'went',
     'wet',
-    'wyn' ]);
+    'wyn' ];*/
+/*
 trie_node = new TrieNode();
 trie = new Trie();
 boggle_solver = new BoggleSolver(board, dictionary);
 console.log(boggle_solver.get_solution());
+*/
