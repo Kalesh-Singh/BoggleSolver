@@ -149,4 +149,3 @@ class BoggleSolver {
 }
 
 module.exports = BoggleSolver;
-log(boggle_solver.getSolution());
