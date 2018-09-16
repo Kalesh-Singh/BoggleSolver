@@ -36,8 +36,20 @@ class Trie {
 
     insert(word) {
         let node = this.root;
+
+        /*for (let i = 0; i < word.length; ++i) {
+            if (!(node.contains(word[i]))) {
+                node.set(word[i], new TrieNode());
+            }
+            if (i === word.length - 1) {
+                node.set_end();
+            } else {
+                node = node.get(word[i]);
+            }
+        }*/
+
         for (let char of word) {
-            if (!node.contains(char)) {
+            if (!(node.contains(char))) {
                 node.set(char, new TrieNode());
             }
             node = node.get(char);
@@ -49,6 +61,16 @@ class Trie {
 
     contains(word) {
         let node = this.root;
+
+        /*for (let i = 0; i < word.length; ++i) {
+            if (!(node.contains(word[i]))) {
+                return false;
+            } else if ((i === word.length - 1) && node.is_end()) {
+                return true;
+            } else {
+                node = node.get(word[i]);
+            }
+        }*/
         for (let char of word) {
             if (!node.contains(char)) {
                 return false;
@@ -65,8 +87,8 @@ class BoggleSolver {
         this.board = board;
 
         this.trie = new Trie();
-        for (let word in dictionary) {
-            self.trie.insert(word);
+        for (let word of dictionary) {
+            this.trie.insert(word);
         }
 
         // Board height (number of rows)
@@ -87,7 +109,7 @@ class BoggleSolver {
 
     _next_letters(i, j, visited) {
         let letters = [];
-        for (let transition in this.transitions) {
+        for (let transition of this.transitions) {
             let new_i = i + transition.x;
             let new_j = j + transition.y;
 
@@ -96,6 +118,72 @@ class BoggleSolver {
             }
 
         }
+        return letters;
+    }
+
+    _find_words(i, j, found_words, visited, trie_node, curr_string) {
+        if (typeof visited === 'undefined') {
+            visited = new Set();
+        }
+        if (typeof trie_node === 'undefined') {
+            trie_node = this.trie.getRoot();
+        }
+        if (typeof found_words === 'undefined') {
+            console.log('Found words was undefined');       // TODO: Delete
+            found_words = new Set();
+        }
+        if (typeof curr_string === 'undefined') {
+            curr_string = '';
+        }
+        if (trie_node.is_end()) {
+            // console.log(curr_string);
+            found_words.add(curr_string);
+        }
+
+        if (this._is_safe(i, j, visited) && trie_node.contains(this.board[i][j])) {
+
+            visited.add({x: i, y: j});
+
+            curr_string += this.board[i][j].toLowerCase();
+
+            let next_letters = this._next_letters(i, j, visited);
+
+            trie_node = trie_node.get(this.board[i][j]);
+
+
+
+            for (let pos of next_letters) {
+
+                console.log('Found words =', found_words);
+                let new_words = this._find_words(pos.x, pos.y,  found_words, new Set(visited), trie_node, curr_string);
+                console.log('New words =', new_words);
+
+                found_words = new Set(found_words, new_words);
+                console.log('Combined words =', found_words);
+
+                /*found_words
+                    = new Set(found_words,
+                    this._find_words(pos.x, pos.y,  found_words, new Set(visited), trie_node, curr_string));
+                */
+            }
+        }
+
+        // console.log(found_words);       // TODO: Delete
+
+        return found_words;
+    }
+
+    get_solution() {
+        let words = new Set();
+
+        for (let i = 0; i < this.m; ++i) {
+            for (let j = 0; j < this.n; ++j) {
+                // console.log('Words', words);
+                words = new Set(words, this._find_words(i, j, words));
+            }
+        }
+
+        return words;
     }
 }
 
@@ -113,6 +201,19 @@ let board = [
     ['g', 'z', 'c', 'r'],
     ['o', 'n', 'b', 'e']
 ];
+
+// trie = new Trie();
+//
+// for (let word of dictionary) {
+//     trie.insert(word);
+// }
+//
+// console.log(trie.contains('twp'));
+// console.log(trie.getRoot().contains('z'));
+// console.log(trie.getRoot().contains('t'));
+
+
 trie_node = new TrieNode();
 trie = new Trie();
 boggle_solver = new BoggleSolver(board, dictionary);
+console.log(boggle_solver.get_solution());
