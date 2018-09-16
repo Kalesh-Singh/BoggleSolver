@@ -2,7 +2,7 @@ let assert = require('assert');
 let BoggleSolver = require('../boggle-solver.js')
 
 describe('BoggleSolver', function () {
-    describe('#get_solution()', function () {
+    describe('#getSolution()', function () {
         it('should return, in sorted order, all valid words that can be made using the given board and dictionary.', function () {
             let dictionary = new Set(['chypre', 'ech', 'ego', 'eng', 'ewt', 'gen',
                 'gent', 'get', 'zoo', 'gon', 'hyp', 'neg', 'net', 'new', 'newt', 'nog',
@@ -25,7 +25,7 @@ describe('BoggleSolver', function () {
 
             let boggle_solver = new BoggleSolver(board, dictionary);
 
-            assert.deepEqual(boggle_solver.get_solution(), solution);
+            assert.deepEqual(boggle_solver.getSolution(), solution);
         });
     });
 });

@@ -82,18 +82,18 @@ class BoggleSolver {
                             {x: -1, y: -1}, {x: 0, y: -1}, {x: 1, y: -1}];
     }
 
-    _is_safe(i, j, visited) {
+    _isSafe(i, j, visited) {
         return !visited.has({x: i, y: j}) && i >= 0 && i < this.m
                 && j >= 0 && j < this.n;
     }
 
-    _next_letters(i, j, visited) {
+    _nextLetters(i, j, visited) {
         let letters = [];
         for (let transition of this.transitions) {
             let new_i = i + transition.x;
             let new_j = j + transition.y;
 
-            if (this._is_safe(new_i, new_j, visited)) {
+            if (this._isSafe(new_i, new_j, visited)) {
                 letters.push({x: new_i, y: new_j});
             }
 
@@ -101,7 +101,7 @@ class BoggleSolver {
         return letters;
     }
 
-    * _find_words(i, j, visited, trie_node, curr_string) {
+    * _findWords(i, j, visited, trie_node, curr_string) {
         if (typeof visited === 'undefined') {
             visited = new Set();
         }
@@ -115,30 +115,30 @@ class BoggleSolver {
             yield curr_string;
         }
 
-        if (this._is_safe(i, j, visited) && trie_node.contains(this.board[i][j])) {
+        if (this._isSafe(i, j, visited) && trie_node.contains(this.board[i][j])) {
 
             visited.add({x: i, y: j});
 
             curr_string += this.board[i][j].toLowerCase();
 
-            let next_letters = this._next_letters(i, j, visited);
+            let next_letters = this._nextLetters(i, j, visited);
 
             trie_node = trie_node.get(this.board[i][j]);
 
             for (let pos of next_letters) {
-                for (let word of this._find_words(pos.x, pos.y, new Set(visited), trie_node, curr_string)) {
+                for (let word of this._findWords(pos.x, pos.y, new Set(visited), trie_node, curr_string)) {
                     yield word;
                 }
             }
         }
     }
 
-    get_solution() {
+    getSolution() {
         let words = new Set();
 
         for (let i = 0; i < this.m; ++i) {
             for (let j = 0; j < this.n; ++j) {
-                for (let word of this._find_words(i, j)) {
+                for (let word of this._findWords(i, j)) {
                     words.add(word);
                 }
             }
@@ -205,5 +205,5 @@ let solution = [
 trie_node = new TrieNode();
 trie = new Trie();
 boggle_solver = new BoggleSolver(board, dictionary);
-console.log(boggle_solver.get_solution());
+console.log(boggle_solver.getSolution());
 */
