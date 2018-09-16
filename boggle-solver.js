@@ -100,21 +100,17 @@ class BoggleSolver {
         return letters;
     }
 
-    * _find_words(i, j, found_words, visited, trie_node, curr_string) {
+    * _find_words(i, j, visited, trie_node, curr_string) {
         if (typeof visited === 'undefined') {
             visited = new Set();
         }
         if (typeof trie_node === 'undefined') {
             trie_node = this.trie.getRoot();
         }
-        if (typeof found_words === 'undefined') {
-            found_words = new Set();
-        }
         if (typeof curr_string === 'undefined') {
             curr_string = '';
         }
         if (trie_node.is_end()) {
-            found_words.add(curr_string);
             yield curr_string;
         }
 
@@ -129,7 +125,7 @@ class BoggleSolver {
             trie_node = trie_node.get(this.board[i][j]);
 
             for (let pos of next_letters) {
-                for (let word of this._find_words(pos.x, pos.y,  found_words, new Set(visited), trie_node, curr_string)) {
+                for (let word of this._find_words(pos.x, pos.y, new Set(visited), trie_node, curr_string)) {
                     yield word;
                 }
             }
@@ -141,20 +137,13 @@ class BoggleSolver {
 
         for (let i = 0; i < this.m; ++i) {
             for (let j = 0; j < this.n; ++j) {
-                for (let word of this._find_words(i, j, words)) {
+                for (let word of this._find_words(i, j)) {
                     words.add(word);
                 }
             }
         }
 
-        /*for (let i = 0; i < this.m; ++i) {
-            for (let j = 0; j < this.n; ++j) {
-                // console.log('Words', words);
-                words = new Set(words, this._find_words(i, j, words));
-            }
-        }*/
-
-        return words;
+        return Array.from(words).sort();
     }
 }
 
@@ -173,17 +162,42 @@ let board = [
     ['o', 'n', 'b', 'e']
 ];
 
-// trie = new Trie();
-//
-// for (let word of dictionary) {
-//     trie.insert(word);
-// }
-//
-// console.log(trie.contains('twp'));
-// console.log(trie.getRoot().contains('z'));
-// console.log(trie.getRoot().contains('t'));
-
-
+let solution = new Set([
+    'chypre',
+    'ech',
+    'ego',
+    'eng',
+    'ewt',
+    'gen',
+    'gent',
+    'get',
+    'gon',
+    'hyp',
+    'neg',
+    'net',
+    'new',
+    'newt',
+    'nog',
+    'once',
+    'oncer',
+    'pre',
+    'pry',
+    'pyne',
+    'reb',
+    'rec',
+    'rhy',
+    'rhyne',
+    'teg',
+    'ten',
+    'tench',
+    'tenzon',
+    'tew',
+    'twp',
+    'wen',
+    'wench',
+    'went',
+    'wet',
+    'wyn' ]);
 trie_node = new TrieNode();
 trie = new Trie();
 boggle_solver = new BoggleSolver(board, dictionary);
