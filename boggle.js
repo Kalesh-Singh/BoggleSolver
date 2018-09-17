@@ -67,15 +67,21 @@ class Boggle {
         this.board = board;
 
         this.trie = new Trie();
-        for (let word of dictionary) {
-            this.trie.insert(word);
+        if (typeof dictionary !== 'undefined'
+            && dictionary instanceof Array) {
+            for (let word of dictionary) {
+                this.trie.insert(word);
+            }
         }
 
         // Board height (number of rows)
         this.m = (board instanceof Array) ? board.length : 1;
 
         // Board width (number of columns)
-        this.n = (board[0] instanceof Array) ? board[0].length : 1;
+        this.n = ((typeof board !== 'undefined')
+                    && board.length > 0
+                    && (board[0] instanceof Array)
+                    ) ? board[0].length : 1;
 
         this.transitions = [{x: -1, y: 1}, {x: 0, y: 1}, {x: 1, y: 1},
                             {x: -1, y: 0}, {x: 1, y: 0},
@@ -112,32 +118,36 @@ class Boggle {
             curr_string = '';
         }
 
-        // console.log("Current string = ", curr_string);
-        // console.log("Visited = ", Array.from(visited).map(pos => this.board[pos.x][pos.y]));
+        console.log('Visited = ', visited);
 
-        let letter = this.board[i][j].toLowerCase();
+        if (typeof this.board !== 'undefined'
+            && this.board instanceof Array
+            && this.board.length > 0) {
 
-        if (this._isSafe(i, j, visited)) {
+            let letter = this.board[i][j].toLowerCase();
 
-            if (trie_node.is_end()) {
-                yield curr_string;
-            }
+            if (this._isSafe(i, j, visited)) {
 
-            if (trie_node.contains(letter)) {
+                if (trie_node.is_end()) {
+                    console.log(curr_string);       // TODO: Delete
+                    yield curr_string;
+                }
 
-                visited.add({x: i, y: j});
+                if (trie_node.contains(letter)) {
 
-                curr_string += letter;
+                    visited.add({x: i, y: j});
 
-                let next_letters = this._nextLetters(i, j, visited);
+                    curr_string += letter;
 
-                // console.log("Next letters = ", (Array.from(next_letters)).map(pos => this.board[pos.x, pos.y]));
+                    let next_letters = this._nextLetters(i, j, visited);
 
-                trie_node = trie_node.get(letter);
+                    trie_node = trie_node.get(letter);
 
-                for (let pos of next_letters) {
-                    for (let word of this._findWords(pos.x, pos.y, new Set(visited), trie_node, curr_string)) {
-                        yield word;
+                    for (let pos of next_letters) {
+                        // for (let word of this._findWords(pos.x, pos.y, new Set(visited), trie_node, curr_string)) {
+                        for (let word of this._findWords(pos.x, pos.y, visited, trie_node, curr_string)) {
+                            yield word;
+                        }
                     }
                 }
             }
@@ -155,14 +165,22 @@ class Boggle {
             }
         }
 
-        words =  Array.from(words).sort();
-        // console.log(words);
-        return words;
+         return Array.from(words).sort();
     }
 }
 
 function findAllSolutions(grid, dictionary) {
     return new Boggle(grid, dictionary).getSolutions();
 }
+
+let grid = [
+    ['A', 'B'],
+    ['C', 'D']
+];
+
+let dictionary = ['A', 'B', 'AC', 'ACA', 'DE'];
+let solution = ['a', 'b', 'ac'];
+
+console.log(findAllSolutions(grid, dictionary));
 
 module.exports = findAllSolutions;
