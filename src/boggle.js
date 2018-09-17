@@ -129,10 +129,6 @@ class Boggle {
 
             let letter = this.board[i][j].toLowerCase();
 
-            if (trie_node.is_end()) {
-                yield curr_string;
-            }
-
             if (trie_node.contains(letter)) {
 
                 visited.add(this._rowColToPosition(i, j));
@@ -143,7 +139,7 @@ class Boggle {
 
                 trie_node = trie_node.get(letter);
 
-                if (next_letters.length === 0 && trie_node.is_end()) {
+                if (trie_node.is_end()) {
                     yield curr_string;
                 }
 
