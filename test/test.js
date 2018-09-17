@@ -1,5 +1,5 @@
 let assert = require('assert');
-let findAllSolutions = require('..src/boggle.js')
+let findAllSolutions = require('../src/boggle.js')
 
 describe('BoggleSolver', function () {
     describe('#findAllSolutions()', function () {
