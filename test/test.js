@@ -93,6 +93,7 @@ describe('BoggleSolver', function () {
             assert.deepEqual(findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
         });
 
+
         it('should return an empty solution set if no words are in the dictionary', function () {
             let grid = [
                 ['A', 'B', 'C', 'D'],

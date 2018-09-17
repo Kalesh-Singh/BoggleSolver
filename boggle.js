@@ -79,18 +79,18 @@ class Boggle {
 
         // Board width (number of columns)
         this.n = ((typeof board !== 'undefined')
-                    && board.length > 0
-                    && (board[0] instanceof Array)
-                    ) ? board[0].length : 1;
+            && board.length > 0
+            && (board[0] instanceof Array)
+        ) ? board[0].length : 1;
 
         this.transitions = [{x: -1, y: 1}, {x: 0, y: 1}, {x: 1, y: 1},
-                            {x: -1, y: 0}, {x: 1, y: 0},
-                            {x: -1, y: -1}, {x: 0, y: -1}, {x: 1, y: -1}];
+            {x: -1, y: 0}, {x: 1, y: 0},
+            {x: -1, y: -1}, {x: 0, y: -1}, {x: 1, y: -1}];
     }
 
     _isSafe(i, j, visited) {
-        return !(visited.has({x: i, y: j})) && i >= 0 && i < this.m
-                && j >= 0 && j < this.n;
+        return !(visited.has(this._rowColToPosition(i, j))) && i >= 0 && i < this.m
+            && j >= 0 && j < this.n;
     }
 
     _nextLetters(i, j, visited) {
@@ -107,6 +107,10 @@ class Boggle {
         return letters;
     }
 
+    _rowColToPosition(row, col) {
+        return (row * this.board[0].length) + col;
+    }
+
     * _findWords(i, j, visited, trie_node, curr_string) {
         if (typeof visited === 'undefined') {
             visited = new Set();
@@ -118,36 +122,34 @@ class Boggle {
             curr_string = '';
         }
 
-        console.log('Visited = ', visited);
-
         if (typeof this.board !== 'undefined'
             && this.board instanceof Array
-            && this.board.length > 0) {
+            && this.board.length > 0
+            && this._isSafe(i, j, visited)) {
 
             let letter = this.board[i][j].toLowerCase();
 
-            if (this._isSafe(i, j, visited)) {
+            if (trie_node.is_end()) {
+                yield curr_string;
+            }
 
-                if (trie_node.is_end()) {
-                    console.log(curr_string);       // TODO: Delete
+            if (trie_node.contains(letter)) {
+
+                visited.add(this._rowColToPosition(i, j));
+
+                curr_string += letter;
+
+                let next_letters = this._nextLetters(i, j, visited);
+
+                trie_node = trie_node.get(letter);
+
+                if (next_letters.length === 0 && trie_node.is_end()) {
                     yield curr_string;
                 }
 
-                if (trie_node.contains(letter)) {
-
-                    visited.add({x: i, y: j});
-
-                    curr_string += letter;
-
-                    let next_letters = this._nextLetters(i, j, visited);
-
-                    trie_node = trie_node.get(letter);
-
-                    for (let pos of next_letters) {
-                        // for (let word of this._findWords(pos.x, pos.y, new Set(visited), trie_node, curr_string)) {
-                        for (let word of this._findWords(pos.x, pos.y, visited, trie_node, curr_string)) {
-                            yield word;
-                        }
+                for (let pos of next_letters) {
+                    for (let word of this._findWords(pos.x, pos.y, new Set(visited), trie_node, curr_string)) {
+                        yield word;
                     }
                 }
             }
@@ -165,22 +167,12 @@ class Boggle {
             }
         }
 
-         return Array.from(words).sort();
+        return Array.from(words).sort();
     }
 }
 
 function findAllSolutions(grid, dictionary) {
     return new Boggle(grid, dictionary).getSolutions();
 }
-
-let grid = [
-    ['A', 'B'],
-    ['C', 'D']
-];
-
-let dictionary = ['A', 'B', 'AC', 'ACA', 'DE'];
-let solution = ['a', 'b', 'ac'];
-
-console.log(findAllSolutions(grid, dictionary));
 
 module.exports = findAllSolutions;
