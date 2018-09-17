@@ -62,7 +62,7 @@ class Trie {
     }
 }
 
-class BoggleSolver {
+class Boggle {
     constructor(board, dictionary) {
         this.board = board;
 
@@ -83,7 +83,7 @@ class BoggleSolver {
     }
 
     _isSafe(i, j, visited) {
-        return !visited.has({x: i, y: j}) && i >= 0 && i < this.m
+        return !(visited.has({x: i, y: j})) && i >= 0 && i < this.m
                 && j >= 0 && j < this.n;
     }
 
@@ -111,33 +111,40 @@ class BoggleSolver {
         if (typeof curr_string === 'undefined') {
             curr_string = '';
         }
-        if (trie_node.is_end()) {
-            yield curr_string;
-        }
+
+        // console.log("Current string = ", curr_string);
+        // console.log("Visited = ", Array.from(visited).map(pos => this.board[pos.x][pos.y]));
 
         let letter = this.board[i][j].toLowerCase();
 
-        if (this._isSafe(i, j, visited) && trie_node.contains(letter)) {
+        if (this._isSafe(i, j, visited)) {
 
-            visited.add({x: i, y: j});
+            if (trie_node.is_end()) {
+                yield curr_string;
+            }
 
-            console.log('Visited = ', visited);
+            if (trie_node.contains(letter)) {
 
-            curr_string += letter;
+                visited.add({x: i, y: j});
 
-            let next_letters = this._nextLetters(i, j, visited);
+                curr_string += letter;
 
-            trie_node = trie_node.get(letter);
+                let next_letters = this._nextLetters(i, j, visited);
 
-            for (let pos of next_letters) {
-                for (let word of this._findWords(pos.x, pos.y, new Set(visited), trie_node, curr_string)) {
-                    yield word;
+                // console.log("Next letters = ", (Array.from(next_letters)).map(pos => this.board[pos.x, pos.y]));
+
+                trie_node = trie_node.get(letter);
+
+                for (let pos of next_letters) {
+                    for (let word of this._findWords(pos.x, pos.y, new Set(visited), trie_node, curr_string)) {
+                        yield word;
+                    }
                 }
             }
         }
     }
 
-    findAllSolutions() {
+    getSolutions() {
         let words = new Set();
 
         for (let i = 0; i < this.m; ++i) {
@@ -148,8 +155,14 @@ class BoggleSolver {
             }
         }
 
-        return Array.from(words).sort();
+        words =  Array.from(words).sort();
+        // console.log(words);
+        return words;
     }
 }
 
-module.exports = BoggleSolver;
+function findAllSolutions(grid, dictionary) {
+    return new Boggle(grid, dictionary).getSolutions();
+}
+
+module.exports = findAllSolutions;
