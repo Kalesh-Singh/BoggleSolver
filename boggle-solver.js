@@ -115,15 +115,19 @@ class BoggleSolver {
             yield curr_string;
         }
 
-        if (this._isSafe(i, j, visited) && trie_node.contains(this.board[i][j])) {
+        let letter = this.board[i][j].toLowerCase();
+
+        if (this._isSafe(i, j, visited) && trie_node.contains(letter)) {
 
             visited.add({x: i, y: j});
 
-            curr_string += this.board[i][j].toLowerCase();
+            console.log('Visited = ', visited);
+
+            curr_string += letter;
 
             let next_letters = this._nextLetters(i, j, visited);
 
-            trie_node = trie_node.get(this.board[i][j]);
+            trie_node = trie_node.get(letter);
 
             for (let pos of next_letters) {
                 for (let word of this._findWords(pos.x, pos.y, new Set(visited), trie_node, curr_string)) {
@@ -133,7 +137,7 @@ class BoggleSolver {
         }
     }
 
-    getSolution() {
+    findAllSolutions() {
         let words = new Set();
 
         for (let i = 0; i < this.m; ++i) {
