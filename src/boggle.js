@@ -69,7 +69,6 @@ class Boggle {
         if (typeof dictionary === 'undefined') {
             throw new Error('DictionaryUndefined');
         }
-        // if (!dictionary instanceof Array) {
         if (!Array.isArray(dictionary)) {
             throw new Error('DictionaryNotAnArray');
         }
