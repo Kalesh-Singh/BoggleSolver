@@ -64,24 +64,40 @@ class Trie {
 
 class Boggle {
     constructor(board, dictionary) {
-        this.board = board;
+       
 
+        if (typeof dictionary === 'undefined') {
+            throw new Error('DictionaryUndefined');
+        }
+        // if (!dictionary instanceof Array) {
+        if (!Array.isArray(dictionary)) {
+            throw new Error('DictionaryNotAnArray');
+        }
+        if (dictionary.length === 0) {
+            throw new Error('DictionarySizeZero');
+        }
+        if (typeof board === 'undefined') {
+            throw new Error('GridUndefined');
+        }
+        if (!Array.isArray(board)) {
+            throw Error('GridNotAnArray');
+        }
+        if (board.length === 0) {
+            throw Error('GridSizeZero');
+        }
+        
+        this.board = board;
         this.trie = new Trie();
-        if (typeof dictionary !== 'undefined'
-            && dictionary instanceof Array) {
-            for (let word of dictionary) {
-                this.trie.insert(word);
-            }
+         
+        for (let word of dictionary) {
+            this.trie.insert(word);
         }
 
         // Board height (number of rows)
-        this.m = (board instanceof Array) ? board.length : 1;
+        this.m = board.length;
 
         // Board width (number of columns)
-        this.n = ((typeof board !== 'undefined')
-            && board.length > 0
-            && (board[0] instanceof Array)
-        ) ? board[0].length : 1;
+        this.n = (Array.isArray(board[0])) ? board[0].length : 1;
 
         this.transitions = [{x: -1, y: 1}, {x: 0, y: 1}, {x: 1, y: 1},
             {x: -1, y: 0}, {x: 1, y: 0},
@@ -122,10 +138,7 @@ class Boggle {
             curr_string = '';
         }
 
-        if (typeof this.board !== 'undefined'
-            && this.board instanceof Array
-            && this.board.length > 0
-            && this._isSafe(i, j, visited)) {
+        if (this._isSafe(i, j, visited)) {
 
             let letter = this.board[i][j].toLowerCase();
 
@@ -167,8 +180,6 @@ class Boggle {
     }
 }
 
-function findAllSolutions(grid, dictionary) {
+exports.findAllSolutions = function(grid, dictionary) {
     return new Boggle(grid, dictionary).getSolutions();
 }
-
-module.exports = findAllSolutions;

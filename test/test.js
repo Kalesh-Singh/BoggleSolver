@@ -1,5 +1,5 @@
 let assert = require('assert');
-let findAllSolutions = require('../src/boggle.js')
+let boggle = require('../src/boggle.js')
 
 describe('BoggleSolver', function () {
     describe('#findAllSolutions()', function () {
@@ -24,7 +24,7 @@ describe('BoggleSolver', function () {
                 'teg', 'ten', 'tench', 'tenzon', 'Tew', 'twp', 'wen',
                 'wench', 'went', 'wet', 'wyn'];
 
-            assert.deepEqual(findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
+            assert.deepEqual(boggle.findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
         });
 
         it('test 2 for correct solutions.', function () {
@@ -39,7 +39,19 @@ describe('BoggleSolver', function () {
 
             let solution = ['ABEF', 'AFJIEB', 'DGKD'];
 
-            assert.deepEqual(findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
+            assert.deepEqual(boggle.findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
+        });
+
+        it('test 3 for correct solutions', function () {
+            let grid = [
+                ['A', 'B'],
+                ['C', 'D']
+            ];
+
+            let dictionary = ['A', 'B', 'AC', 'ACA', 'DE'];
+            let solution = ['a', 'b', 'ac'];
+
+            assert.deepEqual(boggle.findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
         });
 
         it('test 1 for incorrect solutions.', function () {
@@ -63,7 +75,7 @@ describe('BoggleSolver', function () {
                 'teg', 'ten', 'tench', 'tenzon', 'Tew', 'twp', 'wen',
                 'wench', 'went', 'wet', 'wyn'];
 
-            assert.notDeepEqual(findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
+            assert.notDeepEqual(boggle.findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
         });
 
         it('test 2 for incorrect solutions.', function () {
@@ -78,23 +90,19 @@ describe('BoggleSolver', function () {
 
             let solution = ['ABEFA', 'AFJIEB', 'DGKD'];
 
-            assert.notDeepEqual(findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
+            assert.notDeepEqual(boggle.findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
         });
 
-        it('test 3 for correct solutions', function () {
-          let grid = [
-                ['A', 'B'],
-                ['C', 'D']
-            ];
+        it('should handle the case where the gird only has 1 row', function () {
+            let grid = ['B', 'A', 'T', 'S'];
+            let dictionary = ['boy', 'bat', 'bats', 'at', 'ats', 'cat', 'hat', 'bts'];
+            let solution = ['bat', 'bats', 'at', 'ats'];
 
-            let dictionary = ['A', 'B', 'AC', 'ACA', 'DE'];
-            let solution = ['a', 'b', 'ac'];
+            assert.deepEqual(boggle.findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
 
-            assert.deepEqual(findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
         });
 
-
-        it('should return an empty solution set if no words are in the dictionary', function () {
+        it('should throw DictionaryUndefined the dictionary is undefined', function () {
             let grid = [
                 ['A', 'B', 'C', 'D'],
                 ['E', 'F', 'G', 'H'],
@@ -102,25 +110,12 @@ describe('BoggleSolver', function () {
                 ['A', 'B', 'C', 'D']
             ];
 
-            let dictionary = [];
-
-            assert.equal(findAllSolutions(grid, dictionary).length, 0);
+            assert.throws(function () {
+                boggle.findAllSolutions(grid);
+            });
         });
 
-
-        it('should return an empty solution set if the dictionary is undefined', function () {
-            let grid = [
-                ['A', 'B', 'C', 'D'],
-                ['E', 'F', 'G', 'H'],
-                ['I', 'J', 'K', 'L'],
-                ['A', 'B', 'C', 'D']
-            ];
-
-            assert.equal(findAllSolutions(grid).length, 0);
-        });
-
-
-        it('should return an empty solution set if the dictionary not an array', function () {
+        it('should throw DictionaryNotAnArray if the dictionary not an array', function () {
             let grid = [
                 ['A', 'B', 'C', 'D'],
                 ['E', 'F', 'G', 'H'],
@@ -130,28 +125,42 @@ describe('BoggleSolver', function () {
 
             let dictionary = new Set(['bae']);
 
-            assert.equal(findAllSolutions(grid, dictionary).length, 0);
+            assert.throws(function () {
+                boggle.findAllSolutions(grid, dictionary);
+            });
         });
 
-        it('should handle the case where the gird only has 1 row', function () {
-            let grid = ['B', 'A', 'T', 'S'];
-            let dictionary = ['boy', 'bat', 'bats', 'at', 'ats', 'cat', 'hat', 'bts'];
-            let solution = ['bat', 'bats', 'at', 'ats'];
+        it('should throw DictionarySizeZero if no words are in the dictionary', function () {
+            let grid = [
+                ['A', 'B', 'C', 'D'],
+                ['E', 'F', 'G', 'H'],
+                ['I', 'J', 'K', 'L'],
+                ['A', 'B', 'C', 'D']
+            ];
 
-            assert.deepEqual(findAllSolutions(grid, dictionary), solution.map(x => x.toLowerCase()).sort());
+            let dictionary = [];
 
+            assert.throws(function () {
+                boggle.findAllSolutions(grid, dictionary);
+            });
         });
 
-        it('should return an empty solution set if the grid is undefined', function () {
-            assert.equal(findAllSolutions().length, 0);
+        it('should throw GridUndefined if the grid is undefined', function () {
+            assert.throws(function () {
+                boggle.findAllSolutions();
+            });
         });
 
-        it('should return an empty solution set if the grid is not an array', function () {
-            assert.equal(findAllSolutions(new Set(['a', 'b']), ['a', 'b']).length, 0);
+        it('should throw GridNotAnArray if the grid is not an array', function () {
+            assert.throws(function () {
+                boggle.findAllSolutions(new Set(['a', 'b']), ['a', 'b']);
+            });
         });
 
-        it('should return an empty solution set if the grid has size of zero', function () {
-            assert.equal(findAllSolutions([], ['a', 'b']).length, 0);
+        it('should throw GridSizeZero if the grid has size of zero', function () {
+            assert.throws(function () {
+                boggle.findAllSolutions([], ['a', 'b']);
+            });
         });
     });
 });
